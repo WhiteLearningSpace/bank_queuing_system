@@ -20,10 +20,14 @@ public class Number {
     }
 
     //消费消息
-    public static void consume() {
+    public static Integer consume() {
         Integer num = messageQueue.poll();
         System.out.println("取出了队列的消息:" + num + ";队列剩余消息数:" + messageQueue.size());
+        return num;
     }
 
 
+    public static void pass(String str) {
+        messageQueue.add(Integer.parseInt(str));
+    }
 }

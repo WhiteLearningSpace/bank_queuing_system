@@ -25,13 +25,19 @@ public class NumberServer implements Runnable {
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
                 String s = dis.readUTF();
 
-                if (s.equalsIgnoreCase("consume")) {
-                    dos.writeUTF("叫号");
-                    Number.consume();
-                } else if (s.equalsIgnoreCase("produce")) {
+                System.out.println(s);
+
+                System.out.println(s.matches("pass.*"));
+
+                if (s.matches("consume.*")) {
+                    Integer integer = Number.consume();
+                    dos.writeUTF("" + integer);
+                } else if (s.matches("produce.*")) {
                     dos.writeUTF("取号");
                     Number.produce();
-                } else if (s.equalsIgnoreCase("all")) {
+                } else if (s.matches("pass.*")) {
+                    Number.pass(s.split("&")[1]);
+                }else if (s.matches("all.*")) {
                     dos.writeUTF(Number.getQueue());
                 } else {
                     dos.writeUTF("参数错误");
