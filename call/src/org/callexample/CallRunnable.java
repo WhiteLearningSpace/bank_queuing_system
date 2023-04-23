@@ -1,4 +1,4 @@
-package org.example.call;
+package org.callexample;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

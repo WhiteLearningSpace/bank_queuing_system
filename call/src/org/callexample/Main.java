@@ -1,7 +1,7 @@
-package org.example.call;
+package org.callexample;
 
 //在主方法中创建并启动线程
-public class CallMain {
+public class Main {
     public static void main(String[] args) {
         //创建Runnable对象
         CallRunnable r = new CallRunnable();

@@ -1,4 +1,4 @@
-package org.example.server;
+package org.serverexample;
 
 import java.util.concurrent.LinkedBlockingQueue;
 

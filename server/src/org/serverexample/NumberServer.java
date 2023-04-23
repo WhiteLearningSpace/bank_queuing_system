@@ -1,5 +1,4 @@
-package org.example.server;
-
+package org.serverexample;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
