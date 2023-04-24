@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/bank_queuing_system.iml" filepath="$PROJECT_DIR$/bank_queuing_system.iml" />
       <module fileurl="file://$PROJECT_DIR$/call/call.iml" filepath="$PROJECT_DIR$/call/call.iml" />
       <module fileurl="file://$PROJECT_DIR$/display/display.iml" filepath="$PROJECT_DIR$/display/display.iml" />
       <module fileurl="file://$PROJECT_DIR$/get/get.iml" filepath="$PROJECT_DIR$/get/get.iml" />
