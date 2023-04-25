@@ -24,19 +24,20 @@ public class NumberServer implements Runnable {
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
                 String s = dis.readUTF();
 
-                System.out.println(s);
-
-                System.out.println(s.matches("pass.*"));
+                System.out.println("debug:" + s);
 
                 if (s.matches("consume.*")) {
-                    Integer integer = Number.consume();
+                    Integer integer = Number.consume(s.split("&")[1]);
                     dos.writeUTF("" + integer);
                 } else if (s.matches("produce.*")) {
                     dos.writeUTF("取号");
                     Number.produce();
-                } else if (s.matches("pass.*")) {
-                    Number.pass(s.split("&")[1]);
-                }else if (s.matches("all.*")) {
+                } else if (s.matches("checkIn.*")) {
+                    Number.checkIn(s.split("&")[1], s.split("&")[2]);
+                } else if (s.matches("createCaller.*")) {
+                    String result = Number.createCaller(s.split("&")[1]);
+                    dos.writeUTF(result);
+                } else if (s.matches("all.*")) {
                     dos.writeUTF(Number.getQueue());
                 } else {
                     dos.writeUTF("参数错误");
