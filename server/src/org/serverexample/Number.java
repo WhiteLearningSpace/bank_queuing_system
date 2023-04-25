@@ -7,8 +7,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Number {
     //保存消息的数据容器
     private static final LinkedBlockingQueue<Integer> messageQueue = new LinkedBlockingQueue<>();
-    private static final ArrayList<Integer> counterList = new ArrayList<Integer>();
-    private static final ArrayList<Integer[]> numberCalledList = new ArrayList<Integer[]>();
+    private static final ArrayList<Integer> counterList = new ArrayList<>();
+    private static final ArrayList<Integer[]> numberCalledList = new ArrayList<>();
     private static int numberCount = 1;
 
     public static String getQueue() {
@@ -31,8 +31,8 @@ public class Number {
         if (num != null) {
             Integer[] info = {num, counterID};
             numberCalledList.add(info);
-            for (int i = 0; i < numberCalledList.size(); i++) {
-                System.out.println(Arrays.toString(numberCalledList.get(i)));
+            for (Integer[] integers : numberCalledList) {
+                System.out.println(Arrays.toString(integers));
             }
         }
         return num;
@@ -57,5 +57,13 @@ public class Number {
             return "成功";
         }
         return "失败";
+    }
+
+    public static String getCalling() {
+        StringBuilder result = new StringBuilder();
+        for (Integer[] array : numberCalledList) {
+            result.append(Arrays.toString(array));
+        }
+        return result.toString();
     }
 }

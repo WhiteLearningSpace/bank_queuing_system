@@ -39,6 +39,8 @@ public class NumberServer implements Runnable {
                     dos.writeUTF(result);
                 } else if (s.matches("all.*")) {
                     dos.writeUTF(Number.getQueue());
+                } else if (s.matches("getCalling.*")) {
+                    dos.writeUTF(Number.getCalling());
                 } else {
                     dos.writeUTF("参数错误");
                 }
