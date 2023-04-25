@@ -27,11 +27,11 @@ public class NumberServer implements Runnable {
                 System.out.println("debug:" + s);
 
                 if (s.matches("consume.*")) {
-                    Integer integer = Number.consume(s.split("&")[1]);
+                    Integer integer = Number.removeNumber(s.split("&")[1]);
                     dos.writeUTF("" + integer);
                 } else if (s.matches("produce.*")) {
                     dos.writeUTF("取号");
-                    Number.produce();
+                    Number.addNumber();
                 } else if (s.matches("checkIn.*")) {
                     Number.checkIn(s.split("&")[1], s.split("&")[2]);
                 } else if (s.matches("createCaller.*")) {
