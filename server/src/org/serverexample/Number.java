@@ -18,7 +18,7 @@ public class Number {
     // 叫号中的列表
     private static final ArrayList<Integer[]> numberCallingList = new ArrayList<>();
 
-    //
+    // 服务器方法路由器
     public static final HashMap<String, Consumer<String[]>> router = new HashMap<>();
 
     // 排队号码统计
