@@ -1,8 +1,10 @@
 package org.serverexample;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
@@ -83,7 +85,9 @@ public class Number {
                    numberQueue);
 
         objMap.put("callingList",
-                   callingList);
+                   Arrays.toString(callingList.stream()
+                                              .map(Arrays::toString)
+                                              .toArray()));
 
         objMap.put("callNumberCount",
                    callNumberCount);
@@ -93,19 +97,6 @@ public class Number {
 
         return objMap.toString();
     }
-
-    //    /**
-    //     * 返回叫号中的号码列表
-    //     *
-    //     * @return - 叫号中的号码列表
-    //     */
-    //    public static String getCalling() {
-    //        StringBuilder result = new StringBuilder();
-    //        for (Integer[] array : callingList) {
-    //            result.append(Arrays.toString(array));
-    //        }
-    //        return result.toString();
-    //    }
 
     /**
      * 向末尾添加号码
