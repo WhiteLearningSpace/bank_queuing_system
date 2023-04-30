@@ -32,47 +32,64 @@ class SocketHandler extends Thread {
                          .ifPresent((entry) -> entry.getValue()
                                                     .accept(readStr.split("&")));
 
+            Number.sendToOnlineMonitor();
+
+            if (readStr.equals("addOnlineMonitor")) {
+                System.out.println(br.read() == -1);
+            }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Number.removeOnlineMonitor(socket);
         }
     }
 
     private void createRouterMap() {
         Number.router.put("addNumber.*",
-                          (strings) -> {
+                          strings -> {
                               int num = Number.addNumber();
                               ps.println(num);
+                              try {
+                                  socket.close();
+                              } catch (IOException e) {
+                                  throw new RuntimeException(e);
+                              }
                           });
 
         Number.router.put("createCaller.*",
-                          (strings) -> {
+                          strings -> {
                               String isOk = Number.createCaller(strings[1]);
                               ps.println(isOk);
+                              try {
+                                  socket.close();
+                              } catch (IOException e) {
+                                  throw new RuntimeException(e);
+                              }
                           });
 
         Number.router.put("removeNumber.*",
-                          (strings) -> {
+                          strings -> {
                               Integer num = Number.removeNumber(strings[1]);
                               ps.println(num);
+                              try {
+                                  socket.close();
+                              } catch (IOException e) {
+                                  throw new RuntimeException(e);
+                              }
                           });
 
         Number.router.put("checkIn.*",
-                          (strings) -> {
+                          strings -> {
                               Number.checkIn(strings[1],
                                              strings[2]);
+
+                              try {
+                                  socket.close();
+                              } catch (IOException e) {
+                                  throw new RuntimeException(e);
+                              }
                           });
 
-        Number.router.put("all.*",
-                          (strings) -> {
-                              Number.getQueue();
-                          });
-
-        Number.router.put("getCalling.*",
-                          (strings) -> {
-                              String num = Number.getCalling();
-                          });
-
-
+        Number.router.put("addOnlineMonitor",
+                          strings -> Number.addOnlineMonitor(socket));
     }
 
 }
