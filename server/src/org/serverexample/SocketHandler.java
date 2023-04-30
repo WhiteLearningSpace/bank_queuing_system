@@ -1,6 +1,9 @@
 package org.serverexample;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.Socket;
 
 class SocketHandler extends Thread {
@@ -27,8 +30,7 @@ class SocketHandler extends Thread {
                          .filter((entry) -> readStr.matches(entry.getKey()))
                          .findFirst()
                          .ifPresent((entry) -> entry.getValue()
-                                                    .accept(entry.getKey()
-                                                                 .split("&")));
+                                                    .accept(readStr.split("&")));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -42,9 +44,15 @@ class SocketHandler extends Thread {
                               ps.println(num);
                           });
 
+        Number.router.put("createCaller.*",
+                          (strings) -> {
+                              String isOk = Number.createCaller(strings[1]);
+                              ps.println(isOk);
+                          });
+
         Number.router.put("removeNumber.*",
                           (strings) -> {
-                              int num = Number.removeNumber(strings[1]);
+                              Integer num = Number.removeNumber(strings[1]);
                               ps.println(num);
                           });
 
@@ -52,11 +60,6 @@ class SocketHandler extends Thread {
                           (strings) -> {
                               Number.checkIn(strings[1],
                                              strings[2]);
-                          });
-
-        Number.router.put("createCaller.*",
-                          (strings) -> {
-                              String num = Number.createCaller(strings[1]);
                           });
 
         Number.router.put("all.*",

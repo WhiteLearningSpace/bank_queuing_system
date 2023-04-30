@@ -57,40 +57,6 @@ public class Number {
     }
 
     /**
-     * 传入柜台号码与叫的号绑定，并移除头部的号码
-     *
-     * @param counterNum - 柜台号码
-     * @return - 返回号码
-     */
-    public static Integer removeNumber(String counterNum) {
-        int counterID = Integer.parseInt(counterNum);
-        Integer num = numberQueue.poll();
-        System.out.println("取出了队列的消息:" + num + ";队列剩余消息数:" + numberQueue.size());
-        if (num != null) {
-            Integer[] info = {num, counterID};
-            numberCallingList.add(info);
-        }
-        return num;
-    }
-
-    /**
-     * 判断用户是否到场
-     *
-     * @param bool - 用户是否到场
-     * @param num  - 用户的号码
-     */
-    public static void checkIn(String bool, String num) {
-        int intNum = Integer.parseInt(num);
-        if (!Boolean.parseBoolean(bool)) {
-            numberQueue.add(intNum);//过号，放到队尾
-        }
-        for (int i = 0; i < numberCallingList.size(); i++) {
-            Integer[] array = numberCallingList.get(i);
-            if (array[0] == intNum) numberCallingList.remove(i);
-        }
-    }
-
-    /**
      * 创建叫号器
      *
      * @param str - 叫号器编号
@@ -100,9 +66,45 @@ public class Number {
         int counterID = Integer.parseInt(str);
         if (!counterList.contains(counterID)) {
             counterList.add(counterID);
+            System.out.println("创建柜台" + counterID + "成功");
             return "成功";
         }
+        System.out.println("创建柜台" + counterID + "失败");
         return "失败";
+    }
+
+    /**
+     * 传入柜台号码与叫的号绑定，并移除头部的号码
+     *
+     * @param counterNum - 柜台号码
+     * @return - 返回号码
+     */
+    public static Integer removeNumber(String counterNum) {
+        int counterID = Integer.parseInt(counterNum);
+        Integer num = numberQueue.poll();
+        System.out.println("删除队列号码:" + num + ";队列剩余号码数:" + numberQueue.size());
+        if (num != null) {
+            Integer[] info = {num, counterID};
+            numberCallingList.add(info);
+        }
+        return num;
+    }
+
+    /**
+     * 判断用户是否到场，过号就将号码放回队列的末尾，
+     *
+     * @param isPresent - 用户是否到场
+     * @param num       - 用户的号码
+     */
+    public static void checkIn(String isPresent, String num) {
+        int intNum = Integer.parseInt(num);
+        if (!Boolean.parseBoolean(isPresent)) {
+            numberQueue.offer(intNum);// 过号，放到队尾
+            System.out.println("用户不在场，号码放置队尾");
+        }
+        // 未过号，删除叫号中列表的号码
+        System.out.println("从叫号列表中删除号码");
+        numberCallingList.removeIf(integers -> integers[0] == intNum);
     }
 
 
