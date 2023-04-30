@@ -35,7 +35,7 @@ class SocketHandler extends Thread {
             Number.sendToOnlineMonitor();
 
             if (readStr.equals("addOnlineMonitor")) {
-                System.out.println(br.read() == -1);
+                int i = br.read();
             }
         } catch (IOException e) {
             Number.removeOnlineMonitor(socket);
