@@ -1,6 +1,7 @@
 package org.dispexample;
 
-import com.display.IDisplay;
+
+import org.displaysdk.IDisplay;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +34,7 @@ public class Display implements IDisplay {
     }
 
     @Override
-    public void Show() {
+    public void show() {
         System.out.println("\n----------显示排队信息----------");
         System.out.println(Arrays.toString(queueNum));
         System.out.println("\n当前共有" + queueNum.length +"人排队");
