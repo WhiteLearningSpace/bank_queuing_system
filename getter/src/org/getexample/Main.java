@@ -7,9 +7,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("取号请按输入1");
-        System.out.println("输入2结束");
         while (true) {
+            System.out.println("输入: 1-取号、2-退出");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine();
             if (s.equals("1")) {
