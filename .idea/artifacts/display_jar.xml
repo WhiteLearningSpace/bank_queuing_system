@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="display:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/display_jar</output-path>
+    <root id="archive" name="display.jar">
+      <element id="module-output" name="display" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/display/lib/displaysdk.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
