@@ -7,13 +7,10 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class CallRunnable implements Runnable {
-    @Override
-    public void run() {
-
+public class Caller {
+    public Caller() {
         Scanner scanner = new Scanner(System.in);
         byte counterID;
-
 
         while (true) {
             System.out.println("请输入柜台号码：");
@@ -21,13 +18,14 @@ public class CallRunnable implements Runnable {
 
             //传递柜台号码
             try (Socket socket = new Socket(InetAddress.getLocalHost(),
-                    8989)) {
+                                            8989)) {
 
                 DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
                 dos.writeUTF("createCaller&" + counterID);
 
-                if (dis.readUTF().equals("失败")) {//未到场，过号处理
+                if (dis.readUTF()
+                       .equals("失败")) {//未到场，过号处理
                     System.out.println("柜台已在别处登录");
                     continue;
                 }
@@ -42,7 +40,7 @@ public class CallRunnable implements Runnable {
 
         while (true) {
             try (Socket socket = new Socket(InetAddress.getLocalHost(),
-                    8989)) {
+                                            8989)) {
                 DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
 
@@ -51,7 +49,8 @@ public class CallRunnable implements Runnable {
 
 
                 System.out.println("用户是否到场？");
-                checkIn(scanner.nextInt() != 0, num);
+                checkIn(scanner.nextInt() != 0,
+                        num);
 
                 dos.close();
                 dis.close();
@@ -63,7 +62,7 @@ public class CallRunnable implements Runnable {
 
     public void checkIn(Boolean bool, String str) {
         try (Socket socket = new Socket(InetAddress.getLocalHost(),
-                8989)) {
+                                        8989)) {
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             dos.writeUTF("checkIn&" + bool + "&" + str);
