@@ -2,7 +2,7 @@
   <artifact type="jar" name="get:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/get_jar</output-path>
     <root id="archive" name="get.jar">
-      <element id="module-output" name="get" />
+      <element id="module-output" name="getter" />
     </root>
   </artifact>
 </component>

@@ -2,6 +2,6 @@ package org.serverexample;
 
 public class Main {
     public static void main(String[] args) {
-        new Thread(new NumberServer()).start();
+        new NumberServer();
     }
 }

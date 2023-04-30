@@ -46,7 +46,7 @@ public class CallRunnable implements Runnable {
                 DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
 
-                dos.writeUTF("consume&" + counterID);
+                dos.writeUTF("removeNumber&" + counterID);
                 String num = dis.readUTF();
 
 

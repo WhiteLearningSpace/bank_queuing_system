@@ -5,7 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/bank_queuing_system.iml" filepath="$PROJECT_DIR$/bank_queuing_system.iml" />
       <module fileurl="file://$PROJECT_DIR$/caller/caller.iml" filepath="$PROJECT_DIR$/caller/caller.iml" />
       <module fileurl="file://$PROJECT_DIR$/display/display.iml" filepath="$PROJECT_DIR$/display/display.iml" />
-      <module fileurl="file://$PROJECT_DIR$/get/get.iml" filepath="$PROJECT_DIR$/get/get.iml" />
+      <module fileurl="file://$PROJECT_DIR$/getter/getter.iml" filepath="$PROJECT_DIR$/getter/getter.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
     </modules>
   </component>
