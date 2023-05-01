@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         while (true) {
             GlobalUtils.clearCMD();
-            System.out.println("输入: 1-取号、2-退出");
+            System.out.println("输入: 1-取号");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine();
             if (s.equals("1")) {
@@ -27,9 +27,6 @@ public class Main {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            } else if (s.equals("2")) {
-                System.out.println("退出");
-                break;
             }
         }
     }
