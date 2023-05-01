@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/caller_jar</output-path>
     <root id="archive" name="caller.jar">
       <element id="module-output" name="caller" />
+      <element id="module-output" name="bank_queuing_system" />
     </root>
   </artifact>
 </component>

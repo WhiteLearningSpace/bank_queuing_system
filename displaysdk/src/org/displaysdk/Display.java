@@ -1,5 +1,7 @@
 package org.displaysdk;
 
+import org.example.GlobalUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,7 +25,7 @@ public class Display implements IDisplay {
 
 
     private void showInfo() {
-        System.out.println("-------------------------------------------------------");
+        GlobalUtils.clearCMD();
         for (int[] ints : callingList) {
             System.out.println("请" + ints[0] + "号用户到" + ints[1] + "号柜台办理业务");
         }
@@ -34,7 +36,7 @@ public class Display implements IDisplay {
 
     private void getQueueInfo() {
         try (Socket socket = new Socket(InetAddress.getLocalHost(),
-                                        8989)) {
+                8989)) {
             PrintStream ps = new PrintStream(socket.getOutputStream());
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -61,13 +63,13 @@ public class Display implements IDisplay {
 
         while (matcher.find()) {
             String[] strS = matcher.group()
-                                   .split("=");
+                    .split("=");
 
             switch (strS[0]) {
                 case "numberQueue" -> {
                     String[] strArr = strS[1].replaceAll("[\\[\\]]",
-                                                         "")
-                                             .split(",");
+                                    "")
+                            .split(",");
                     if ("".equals(strArr[0])) {
                         numberQueue = new int[0];
                         break;
@@ -79,8 +81,8 @@ public class Display implements IDisplay {
                 }
                 case "callingList" -> {
                     String[] strArr = strS[1].replaceAll("[\\[\\]]",
-                                                         "")
-                                             .split(",");
+                                    "")
+                            .split(",");
                     if ("".equals(strArr[0])) {
                         callingList = new int[0][];
                         break;

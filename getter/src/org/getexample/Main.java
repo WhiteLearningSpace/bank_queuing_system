@@ -4,10 +4,12 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
+import org.example.GlobalUtils;
 
 public class Main {
     public static void main(String[] args) {
         while (true) {
+            GlobalUtils.clearCMD();
             System.out.println("输入: 1-取号、2-退出");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine();

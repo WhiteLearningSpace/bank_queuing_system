@@ -1,5 +1,7 @@
 package org.callexample;
 
+import org.example.GlobalUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,6 +22,7 @@ public class Caller {
 
     private void waitCall() {
         while (true) {
+            GlobalUtils.clearCMD();
             System.out.print("是否叫号(1-叫号、*-退出): ");
             int isCall = scanner.nextInt();
             if (isCall == 1) {
@@ -35,6 +38,7 @@ public class Caller {
      */
     private void createCaller() {
         while (true) {
+            GlobalUtils.clearCMD();
             // 输入柜台ID
             System.out.print("请输入柜台号码(数字)： ");
             try {
