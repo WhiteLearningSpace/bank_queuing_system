@@ -51,10 +51,14 @@ public class Display implements IDisplay {
     }
 
     private void formatMap(String mapStr) {
-        String regex = "\\w+=(\\[\\[.*]]|\\w|\\[.*])";
-
+        if (mapStr.isEmpty()) {
+            System.out.println("服务器无数据返回");
+            return;
+        }
+        String regex = "\\w+=(\\[(?:[\\[\\w,\\s\\]]*|[\\w,\\s]*)]|\\w)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(mapStr);
+
         while (matcher.find()) {
             String[] strS = matcher.group()
                                    .split("=");
@@ -64,6 +68,10 @@ public class Display implements IDisplay {
                     String[] strArr = strS[1].replaceAll("[\\[\\]]",
                                                          "")
                                              .split(",");
+                    if ("".equals(strArr[0])) {
+                        numberQueue = new int[0];
+                        break;
+                    }
                     numberQueue = new int[strArr.length];
                     for (int i = 0; i < strArr.length; i++) {
                         numberQueue[i] = Integer.parseInt(strArr[i].trim());
@@ -73,6 +81,10 @@ public class Display implements IDisplay {
                     String[] strArr = strS[1].replaceAll("[\\[\\]]",
                                                          "")
                                              .split(",");
+                    if ("".equals(strArr[0])) {
+                        callingList = new int[0][];
+                        break;
+                    }
                     callingList = new int[strArr.length / 2][2];
                     for (int i = 0; i < strArr.length; i += 2) {
                         int i1 = Integer.parseInt(strArr[i].trim());
