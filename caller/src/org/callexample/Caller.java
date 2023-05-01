@@ -23,14 +23,11 @@ public class Caller {
     private void waitCall() {
         while (true) {
             GlobalUtils.clearCMD();
-            int userInput;
-            while (true) {
-                System.out.println("当前柜台ID：" + counterID);
-                System.out.print("是否叫号(1-叫号): ");
-                userInput = scanner.nextInt();
-                if (userInput == 1) {
-                    removeNumber();
-                }
+            System.out.println("当前柜台ID：" + counterID);
+            System.out.print("是否叫号(1-叫号): ");
+            int userInput = scanner.nextInt();
+            if (userInput == 1) {
+                removeNumber();
             }
         }
     }
