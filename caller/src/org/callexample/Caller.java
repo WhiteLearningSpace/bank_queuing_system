@@ -24,15 +24,13 @@ public class Caller {
         while (true) {
             GlobalUtils.clearCMD();
             int userInput;
-            do {
+            while (true) {
                 System.out.println("当前柜台ID：" + counterID);
-                System.out.print("是否叫号(1-叫号、0-退出): ");
+                System.out.print("是否叫号(1-叫号): ");
                 userInput = scanner.nextInt();
-            } while (userInput != 1 && userInput != 0);
-            if (userInput == 1) {
-                removeNumber();
-            } else {
-                break;
+                if (userInput == 1) {
+                    removeNumber();
+                }
             }
         }
     }
@@ -59,7 +57,7 @@ public class Caller {
 
                 ps.println("createCaller&" + counterID);
                 if (br.readLine()
-                      .equals("失败")) {// 柜台已存在
+                        .equals("失败")) {// 柜台已存在
                     System.out.println("柜台已在别处登录");
                     continue;
                 }
