@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -47,14 +46,13 @@ public class Caller {
             }
 
             // 创建柜台ID并判断是否成功
-            try (Socket socket = new Socket(InetAddress.getLocalHost(),
-                    8989)) {
+            try (Socket socket = new Socket(Main.IP, Main.PORT)) {
                 PrintStream ps = new PrintStream(socket.getOutputStream());
                 BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
                 ps.println("createCaller&" + counterID);
                 if (br.readLine()
-                        .equals("失败")) {// 柜台已存在
+                      .equals("失败")) {// 柜台已存在
                     System.out.println("柜台已在别处登录");
                     continue;
                 }
@@ -71,8 +69,7 @@ public class Caller {
      * 删除号码并判断用户是否到场，过号就将号码放回队列的末尾
      */
     private void removeNumber() {
-        try (Socket socket = new Socket(InetAddress.getLocalHost(),
-                8989)) {
+        try (Socket socket = new Socket(Main.IP, Main.PORT)) {
             PrintStream ps = new PrintStream(socket.getOutputStream());
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -94,8 +91,7 @@ public class Caller {
                     break;
                 }
             }
-            checkIn(isPresent,
-                    Integer.parseInt(num));
+            checkIn(isPresent, Integer.parseInt(num));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -109,8 +105,7 @@ public class Caller {
      * @param num       - 号码
      */
     private void checkIn(boolean isPresent, int num) {
-        try (Socket socket = new Socket(InetAddress.getLocalHost(),
-                8989)) {
+        try (Socket socket = new Socket(Main.IP, Main.PORT)) {
             PrintStream ps = new PrintStream(socket.getOutputStream());
 
             // 判断用户是否到场
