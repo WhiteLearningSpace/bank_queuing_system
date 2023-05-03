@@ -5,8 +5,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class NumberServer {
-    public NumberServer() {
-        try (ServerSocket serverSocket = new ServerSocket(8989)) {
+    public static int PORT;
+
+    public void createServer() {
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (true) {
                 Socket socket = serverSocket.accept();
 
