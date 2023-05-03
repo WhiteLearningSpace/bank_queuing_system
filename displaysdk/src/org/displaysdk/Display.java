@@ -57,19 +57,20 @@ public class Display implements IDisplay {
             System.out.println("服务器无数据返回");
             return;
         }
-        String regex = "\\w+=(\\[(?:[\\[\\w,\\s\\]]*|[\\w,\\s]*)]|\\w)";
+
+        String regex = "\\w+=(\\[(?:[\\[\\w,\\s\\]]*|[\\w,\\s]*)]|\\w*)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(mapStr);
 
         while (matcher.find()) {
             String[] strS = matcher.group()
-                    .split("=");
+                                   .split("=");
 
             switch (strS[0]) {
                 case "numberQueue" -> {
                     String[] strArr = strS[1].replaceAll("[\\[\\]]",
-                                    "")
-                            .split(",");
+                                                     "")
+                                             .split(",");
                     if ("".equals(strArr[0])) {
                         numberQueue = new int[0];
                         break;
@@ -81,8 +82,8 @@ public class Display implements IDisplay {
                 }
                 case "callingList" -> {
                     String[] strArr = strS[1].replaceAll("[\\[\\]]",
-                                    "")
-                            .split(",");
+                                                     "")
+                                             .split(",");
                     if ("".equals(strArr[0])) {
                         callingList = new int[0][];
                         break;
