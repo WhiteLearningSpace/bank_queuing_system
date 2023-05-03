@@ -11,7 +11,9 @@ public class GlobalUtils {
                 Process startProcess = pb.inheritIO().start();
                 startProcess.waitFor();
             } else {
-                Runtime.getRuntime().exec("clear");
+                ProcessBuilder pb = new ProcessBuilder("clear");
+                Process startProcess = pb.inheritIO().start();
+                startProcess.waitFor();
             }
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
