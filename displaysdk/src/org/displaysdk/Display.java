@@ -13,10 +13,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Display implements IDisplay {
-    public int[] numberQueue;
-    public int[][] callingList;
-    public int passNumberCount;
-    public int callNumberCount;
+    private int[] numberQueue;
+    private int[][] callingList;
+    private int passNumberCount;
+    private int callNumberCount;
+
+    public static InetAddress IP;
+    public static int PORT;
 
     @Override
     public void show() {
@@ -35,8 +38,7 @@ public class Display implements IDisplay {
     }
 
     private void getQueueInfo() {
-        try (Socket socket = new Socket(InetAddress.getLocalHost(),
-                8989)) {
+        try (Socket socket = new Socket(IP, PORT)) {
             PrintStream ps = new PrintStream(socket.getOutputStream());
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -68,8 +70,7 @@ public class Display implements IDisplay {
 
             switch (strS[0]) {
                 case "numberQueue" -> {
-                    String[] strArr = strS[1].replaceAll("[\\[\\]]",
-                                                     "")
+                    String[] strArr = strS[1].replaceAll("[\\[\\]]", "")
                                              .split(",");
                     if ("".equals(strArr[0])) {
                         numberQueue = new int[0];
@@ -81,8 +82,7 @@ public class Display implements IDisplay {
                     }
                 }
                 case "callingList" -> {
-                    String[] strArr = strS[1].replaceAll("[\\[\\]]",
-                                                     "")
+                    String[] strArr = strS[1].replaceAll("[\\[\\]]", "")
                                              .split(",");
                     if ("".equals(strArr[0])) {
                         callingList = new int[0][];
