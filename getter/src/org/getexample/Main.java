@@ -1,10 +1,14 @@
 package org.getexample;
 
-import java.io.*;
+import org.example.GlobalUtils;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
-import org.example.GlobalUtils;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,8 +18,7 @@ public class Main {
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine();
             if (s.equals("1")) {
-                try (Socket socket = new Socket(InetAddress.getLocalHost(),
-                                                8989)) {
+                try (Socket socket = new Socket(InetAddress.getLocalHost(), 8989)) {
 
                     PrintStream ps = new PrintStream(socket.getOutputStream());
                     BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -24,7 +27,9 @@ public class Main {
                     String readLine = br.readLine();
                     System.out.println("获取号码" + readLine);
 
-                } catch (IOException e) {
+                    Thread.sleep(1000);
+
+                } catch (IOException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
