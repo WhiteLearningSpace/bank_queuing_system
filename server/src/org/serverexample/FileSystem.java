@@ -1,18 +1,11 @@
 package org.serverexample;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileSystem {
     private static String src = "data.txt";
-
-    public static void main(String[] args) {
-        saveData();
-        System.out.println(readData());
-    }
 
     public static void saveData() {
         try {
@@ -29,9 +22,9 @@ public class FileSystem {
         String qinfo = null;
         try {
             File file = new File(src);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
+            if (file.createNewFile()){
+                System.out.println("创建文件");
+            };
             InputStreamReader isr = new InputStreamReader(new FileInputStream(src));
 
             StringBuffer sb = new StringBuffer();
