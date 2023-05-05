@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 public class Number {
     //保存排队的队列
-    private static final LinkedBlockingQueue<Integer> numberQueue = new LinkedBlockingQueue<>();
+    public static final LinkedBlockingQueue<Integer> numberQueue = new LinkedBlockingQueue<>();
 
     // 在线显示器
     private static final ArrayList<Socket> onlineMonitor = new ArrayList<>();
@@ -20,19 +20,19 @@ public class Number {
     private static final ArrayList<Integer> counterList = new ArrayList<>();
 
     // 叫号中的列表
-    private static final ArrayList<Integer[]> callingList = new ArrayList<>();
+    public static final ArrayList<Integer[]> callingList = new ArrayList<>();
 
     // 服务器方法路由器
     public static final HashMap<String, Consumer<String[]>> router = new HashMap<>();
 
     // 排队号码统计
-    private static int numberCount = 1;
+    public static int numberCount = 1;
 
     // 叫号数
-    private static int callNumberCount = 0;
+    public static int callNumberCount = 0;
 
     // 过号数
-    private static int passNumberCount = 0;
+    public static int passNumberCount = 0;
 
     /**
      * 添加记录在线的显示器
@@ -95,6 +95,9 @@ public class Number {
         objMap.put("passNumberCount",
                    passNumberCount);
 
+        objMap.put("numberCount",
+                numberCount);
+
         return objMap.toString();
     }
 
@@ -104,6 +107,7 @@ public class Number {
     public static int addNumber() {
         numberQueue.offer(numberCount);
         System.out.println("向队列添加号码:" + numberCount);
+        FileSystem.saveData();
         return numberCount++;
     }
 
@@ -139,6 +143,7 @@ public class Number {
             callingList.add(info);
             callNumberCount++;
         }
+        FileSystem.saveData();
         return num;
     }
 
@@ -158,6 +163,8 @@ public class Number {
         // 未过号，删除叫号中列表的号码
         System.out.println("从叫号列表中删除号码");
         callingList.removeIf(integers -> integers[0] == intNum);
+
+        FileSystem.saveData();
     }
 
 

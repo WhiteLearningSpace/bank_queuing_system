@@ -7,6 +7,8 @@ public class Main {
         } else {
             NumberServer.PORT = 8989;
         }
+        FileSystem.reloadData();
         new NumberServer().createServer();
+
     }
 }
