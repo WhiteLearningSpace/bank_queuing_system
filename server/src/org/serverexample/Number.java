@@ -26,7 +26,7 @@ public class Number {
     public static final HashMap<String, Consumer<String[]>> router = new HashMap<>();
 
     // 排队号码统计
-    public static int numberCount = 1;
+    public static int numberCount = 0;
 
     // 叫号数
     public static int callNumberCount = 0;
@@ -105,10 +105,11 @@ public class Number {
      * 向末尾添加号码
      */
     public static int addNumber() {
+        numberCount++;
         numberQueue.offer(numberCount);
         System.out.println("向队列添加号码:" + numberCount);
         FileSystem.saveData();
-        return numberCount++;
+        return numberCount;
     }
 
     /**
