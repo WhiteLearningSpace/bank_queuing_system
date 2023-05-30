@@ -2,12 +2,6 @@ package org.displaysdk;
 
 import org.example.GlobalUtils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.InetAddress;
-import java.net.Socket;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,15 +12,15 @@ public class Display implements IDisplay {
     private int passNumberCount;
     private int callNumberCount;
 
-    public static InetAddress IP;
-    public static int PORT;
-
     @Override
-    public void show() {
-        getQueueInfo();
+    public void show(String str) {
+        formatMap(str);
+        showInfo();
     }
 
-
+    /**
+     * 展示信息
+     */
     private void showInfo() {
         GlobalUtils.clearCMD();
         for (int[] ints : callingList) {
@@ -37,23 +31,11 @@ public class Display implements IDisplay {
         System.out.println("等待中" + Arrays.toString(numberQueue));
     }
 
-    private void getQueueInfo() {
-        try (Socket socket = new Socket(IP, PORT)) {
-            PrintStream ps = new PrintStream(socket.getOutputStream());
-            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            ps.println("addOnlineMonitor");
-
-            String readStr;
-            while ((readStr = br.readLine()) != null) {
-                formatMap(readStr);
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+    /**
+     * 格式化数据字符串，并赋值给变量
+     *
+     * @param mapStr - 需要格式化的字符串
+     */
     private void formatMap(String mapStr) {
         if (mapStr.isEmpty()) {
             System.out.println("服务器无数据返回");
@@ -66,12 +48,12 @@ public class Display implements IDisplay {
 
         while (matcher.find()) {
             String[] strS = matcher.group()
-                                   .split("=");
+                    .split("=");
 
             switch (strS[0]) {
                 case "numberQueue" -> {
                     String[] strArr = strS[1].replaceAll("[\\[\\]]", "")
-                                             .split(",");
+                            .split(",");
                     if ("".equals(strArr[0])) {
                         numberQueue = new int[0];
                         break;
@@ -83,7 +65,7 @@ public class Display implements IDisplay {
                 }
                 case "callingList" -> {
                     String[] strArr = strS[1].replaceAll("[\\[\\]]", "")
-                                             .split(",");
+                            .split(",");
                     if ("".equals(strArr[0])) {
                         callingList = new int[0][];
                         break;
@@ -99,8 +81,5 @@ public class Display implements IDisplay {
                 case "callNumberCount" -> callNumberCount = Integer.parseInt(strS[1]);
             }
         }
-
-
-        showInfo();
     }
 }

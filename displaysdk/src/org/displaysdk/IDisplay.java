@@ -1,5 +1,5 @@
 package org.displaysdk;
 
 public interface IDisplay {
-    void show();
+    void show(String str);
 }
