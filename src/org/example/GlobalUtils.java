@@ -1,7 +1,6 @@
 package org.example;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class GlobalUtils {
     public static void clearCMD() {
@@ -21,20 +20,5 @@ public class GlobalUtils {
         }
     }
 
-    /**
-     * 发送关机信号
-     * 用多线程监听键盘输入是q或quit就关闭程序
-     */
-    public static void sendShutdownSignal() {
-        new Thread(() -> {
-            Scanner scanner = new Scanner(System.in);
-            while (true) {
-                String input = scanner.nextLine().trim().toLowerCase();
-                if (input.equals("q") || input.equals("quit")) {
-                    System.exit(0);
-                    break;
-                }
-            }
-        }).start();
-    }
+
 }
