@@ -3,10 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/bank_queuing_system.iml" filepath="$PROJECT_DIR$/bank_queuing_system.iml" />
-      <module fileurl="file://$PROJECT_DIR$/caller/caller.iml" filepath="$PROJECT_DIR$/caller/caller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/consumer/consumer.iml" filepath="$PROJECT_DIR$/consumer/consumer.iml" />
       <module fileurl="file://$PROJECT_DIR$/display/display.iml" filepath="$PROJECT_DIR$/display/display.iml" />
       <module fileurl="file://$PROJECT_DIR$/displaysdk/displaysdk.iml" filepath="$PROJECT_DIR$/displaysdk/displaysdk.iml" />
-      <module fileurl="file://$PROJECT_DIR$/getter/getter.iml" filepath="$PROJECT_DIR$/getter/getter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/producer/producer.iml" filepath="$PROJECT_DIR$/producer/producer.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
     </modules>
   </component>
