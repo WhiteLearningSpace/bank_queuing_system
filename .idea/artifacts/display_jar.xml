@@ -4,6 +4,7 @@
     <root id="archive" name="display.jar">
       <element id="module-output" name="display" />
       <element id="extracted-dir" path="$PROJECT_DIR$/display/lib/displaysdk.jar" path-in-jar="/" />
+      <element id="module-output" name="server" />
     </root>
   </artifact>
 </component>

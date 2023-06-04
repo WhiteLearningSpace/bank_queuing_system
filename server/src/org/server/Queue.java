@@ -1,17 +1,15 @@
-package org.serverexample;
+package org.server;
 
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 
-public class Number {
+public class Queue implements Serializable {
     //保存排队的队列
-    public static final LinkedBlockingQueue<Integer> numberQueue = new LinkedBlockingQueue<>();
+    public final LinkedBlockingQueue<Integer> numberQueue = new LinkedBlockingQueue<>();
 
     // 在线显示器
     private static final ArrayList<Socket> onlineMonitor = new ArrayList<>();
@@ -19,20 +17,20 @@ public class Number {
     // 柜台列表
     private static final ArrayList<Integer> counterList = new ArrayList<>();
 
-    // 叫号中的列表
-    public static final ArrayList<Integer[]> callingList = new ArrayList<>();
+    // 叫号中的列表[排队号码, 柜台ID]
+    public final ArrayList<Integer[]> callingList = new ArrayList<>();
 
     // 服务器方法路由器
     public static final HashMap<String, Consumer<String[]>> router = new HashMap<>();
 
     // 排队号码统计
-    public static int numberCount = 0;
+    public int numberCount = 0;
 
     // 叫号数
-    public static int callNumberCount = 0;
+    public int callNumberCount = 0;
 
     // 过号数
-    public static int passNumberCount = 0;
+    public int passNumberCount = 0;
 
     /**
      * 添加记录在线的显示器
@@ -61,54 +59,29 @@ public class Number {
     }
 
     /**
+     * 通知数据变更
      * 给每个记录的显示器发送队列信息
+     * 保存数据
      */
-    public static void sendToOnlineMonitor() {
+    public void notifyChange() {
         for (Socket socket : onlineMonitor) {
             try {
-                PrintStream ps = new PrintStream(socket.getOutputStream());
-                ps.println(getQueueInfo());
+                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                oos.writeObject(this);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    /**
-     * 返回号码队列各种信息
-     *
-     * @return - 返回号码队列各种信息
-     */
-    public static String getQueueInfo() {
-        HashMap<String, Object> objMap = new HashMap<>();
-        objMap.put("numberQueue",
-                   numberQueue);
-
-        objMap.put("callingList",
-                   Arrays.toString(callingList.stream()
-                                              .map(Arrays::toString)
-                                              .toArray()));
-
-        objMap.put("callNumberCount",
-                   callNumberCount);
-
-        objMap.put("passNumberCount",
-                   passNumberCount);
-
-        objMap.put("numberCount",
-                numberCount);
-
-        return objMap.toString();
+        Server.saveData(this);
     }
 
     /**
      * 向末尾添加号码
      */
-    public static int addNumber() {
+    public int addNumber() {
         numberCount++;
         numberQueue.offer(numberCount);
         System.out.println("向队列添加号码:" + numberCount);
-        FileSystem.saveData();
         return numberCount;
     }
 
@@ -135,7 +108,7 @@ public class Number {
      * @param counterNum - 柜台号码
      * @return - 返回号码
      */
-    public static Integer removeNumber(String counterNum) {
+    public Integer removeNumber(String counterNum) {
         int counterID = Integer.parseInt(counterNum);
         Integer num = numberQueue.poll();
         System.out.println("删除队列号码:" + num + ";队列剩余号码数:" + numberQueue.size());
@@ -144,7 +117,6 @@ public class Number {
             callingList.add(info);
             callNumberCount++;
         }
-        FileSystem.saveData();
         return num;
     }
 
@@ -154,7 +126,7 @@ public class Number {
      * @param isPresent - 用户是否到场
      * @param num       - 用户的号码
      */
-    public static void checkIn(String isPresent, String num) {
+    public void checkIn(String isPresent, String num) {
         int intNum = Integer.parseInt(num);
         if (!Boolean.parseBoolean(isPresent)) {
             numberQueue.offer(intNum);// 过号，放到队尾
@@ -164,8 +136,6 @@ public class Number {
         // 未过号，删除叫号中列表的号码
         System.out.println("从叫号列表中删除号码");
         callingList.removeIf(integers -> integers[0] == intNum);
-
-        FileSystem.saveData();
     }
 
 

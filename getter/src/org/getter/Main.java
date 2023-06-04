@@ -1,6 +1,4 @@
-package org.getexample;
-
-import org.example.GlobalUtils;
+package org.getter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +22,6 @@ public class Main {
             PORT = 8989;
         }
         while (true) {
-            GlobalUtils.clearCMD();
             System.out.println("输入: 1-取号");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine();
@@ -38,11 +35,12 @@ public class Main {
                     String readLine = br.readLine();
                     System.out.println("获取号码" + readLine);
 
-                    Thread.sleep(1000);
 
-                } catch (IOException | InterruptedException e) {
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+            } else if (s.equals("quit") || s.equals("q")) {
+                break;
             }
         }
     }

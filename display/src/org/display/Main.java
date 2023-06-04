@@ -1,11 +1,9 @@
-package org.displayexample;
+package org.display;
 
 import org.displaysdk.Display;
+import org.server.Queue;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -28,18 +26,23 @@ public class Main {
         // 向服务器请求数据
         try (Socket socket = new Socket(IP, PORT)) {
             PrintStream ps = new PrintStream(socket.getOutputStream());
-            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             // 发送请求参数
             ps.println("addOnlineMonitor");
 
-            String readStr;
-            while ((readStr = br.readLine()) != null) {
-                // 等待数据返回，调用展示方法展示数据
-                display.show(readStr);
+            Queue read;
+            // 等待数据返回，调用展示方法展示数据
+            while ((read = (Queue) new ObjectInputStream(socket.getInputStream()).readObject()) != null) {
+                display.show("已排队人数: " + read.numberCount);
+                display.show("已叫号人数: " + read.callNumberCount);
+                display.show("已过号人数: " + read.passNumberCount);
+                for (Integer[] integers : read.callingList) {
+                    display.show(integers[0] + "号用户到" + integers[1] + "号柜台办理业务");
+                }
+                display.show(read.numberQueue.toString());
             }
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 

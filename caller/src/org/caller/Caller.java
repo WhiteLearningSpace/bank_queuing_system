@@ -1,4 +1,4 @@
-package org.callexample;
+package org.caller;
 
 import org.example.GlobalUtils;
 

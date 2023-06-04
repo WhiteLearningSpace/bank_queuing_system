@@ -3,7 +3,6 @@
     <output-path>$PROJECT_DIR$/out/artifacts/</output-path>
     <root id="archive" name="getter.jar">
       <element id="module-output" name="getter" />
-      <element id="module-output" name="bank_queuing_system" />
     </root>
   </artifact>
 </component>

@@ -3,7 +3,6 @@
     <output-path>$PROJECT_DIR$/display/lib</output-path>
     <root id="archive" name="displaysdk.jar">
       <element id="module-output" name="displaysdk" />
-      <element id="module-output" name="bank_queuing_system" />
     </root>
   </artifact>
 </component>
