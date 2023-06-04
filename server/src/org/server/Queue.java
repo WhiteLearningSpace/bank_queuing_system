@@ -139,4 +139,20 @@ public class Queue implements Serializable {
     }
 
 
+    /**
+     * 查看排队进度
+     *
+     * @param num 要查看的号码
+     * @return 前面还有几个号码
+     */
+    public Integer checkQueueProgress(Integer num) {
+        int count = 0;
+        for (Integer integer : numberQueue) {
+            if (integer.equals(num)) {
+                return count;
+            }
+            count++;
+        }
+        return null;
+    }
 }

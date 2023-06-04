@@ -1,5 +1,7 @@
 package org.server;
 
+import com.sun.net.httpserver.HttpServer;
+
 import java.io.*;
 import java.net.*;
 import java.util.Enumeration;
@@ -13,19 +15,70 @@ public class Server {
         reloadData();
         shutdownListener();
         createServer();
+        createWebServer();
     }
 
-    public void createServer() {
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            showNetWorkAddress();
-            while (true) {
-                Socket socket = serverSocket.accept();
+    /**
+     * 创建网页服务
+     */
+    public void createWebServer() {
+        new Thread(() -> {
+            try {
+                HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 9001), 0);
+                // 设置处理请求的处理程序
+                server.createContext("/", exchange -> {
 
-                new SocketHandler(socket).start();
+                    String params = exchange.getRequestURI().getQuery();
+
+                    Integer integer = queue.checkQueueProgress(Integer.valueOf(params));
+
+                    String response = "<html>" +
+                            "<head>" +
+                            "<meta charset=\"UTF-8\">" +
+                            "<title>进度</title>" +
+                            "</head>" +
+                            "<body><center>" +
+                            "<h1>当前前面还有" + integer + "人</h1>" +
+                            "</center></body>" +
+                            "</html>"; // 设置响应内容
+
+
+                    byte[] responseData = response.getBytes();
+
+                    // 设置响应头
+                    exchange.getResponseHeaders().set("Content-Type", "text/html");
+                    exchange.sendResponseHeaders(200, responseData.length); // 设置响应状态码和内容长度
+
+                    // 发送响应内容
+                    OutputStream outputStream = exchange.getResponseBody();
+                    outputStream.write(responseData);
+                    outputStream.close();
+                });
+
+                // 启动服务器
+                server.start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        }).start();
+    }
+
+    /**
+     * 创建队列服务
+     */
+    public void createServer() {
+        new Thread(() -> {
+            try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+                showNetWorkAddress();
+                while (true) {
+                    Socket socket = serverSocket.accept();
+
+                    new SocketHandler(socket).start();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
     }
 
     /**
