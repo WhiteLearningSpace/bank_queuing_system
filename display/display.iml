@@ -8,5 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="Display" level="project" />
+    <orderEntry type="module" module-name="bank_queuing_system" />
+    <orderEntry type="module" module-name="server" />
   </component>
 </module>

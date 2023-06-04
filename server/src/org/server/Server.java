@@ -1,8 +1,8 @@
 package org.server;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
+import org.example.Message;
+
+import java.io.*;
 import java.net.*;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -14,6 +14,8 @@ public class Server {
     private int port = 9000;
     // 保存可用端口的数组
     private final int[] ports = new int[3];
+
+    private final MessageQueue mq = MessageQueue.getInstance();
 
     Server() {
         setAvailablePorts();
@@ -30,14 +32,14 @@ public class Server {
                 while (true) {
                     Socket socket = serverSocket.accept();
                     new Thread(() -> {
-                        Integer num = Queue.produce();
-                        PrintStream ps;
+                        mq.queueCount++;
+                        mq.produce(new Message(null, mq.queueCount, null));
                         try {
-                            ps = new PrintStream(socket.getOutputStream());
+                            PrintStream ps = new PrintStream(socket.getOutputStream());
+                            ps.println(mq.queueCount);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        ps.println(num);
                     }).start();
                 }
             } catch (IOException e) {
@@ -53,8 +55,23 @@ public class Server {
                 System.out.println("消费服务开启成功");
                 showServerAddress("消费", ports[1]);
                 while (true) {
-                    serverSocket.accept();
-                    new Thread(Queue::consume).start();
+                    Socket socket = serverSocket.accept();
+                    new Thread(() -> {
+                        try {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//                            PrintStream ps = new PrintStream(socket.getOutputStream());
+//
+//                            Message consume = mq.consume();
+//
+//
+//
+//                            String consumerId = br.readLine();
+
+
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
                 }
             } catch (IOException e) {
                 System.out.println("消费服务创建失败:" + e.getMessage());
@@ -72,11 +89,11 @@ public class Server {
                     // 开启一个新的线程，让订阅者保持连接
                     new Thread(() -> {
                         try {
-                            Queue.subscribe(socket);
+                            mq.subscribe(socket);
                             InputStream is = socket.getInputStream();
                             int ignored = is.read();
                         } catch (IOException e) {
-                            Queue.unsubscribe(socket);
+                            mq.unsubscribe(socket);
                             try {
                                 socket.close();
                             } catch (IOException ignored) {

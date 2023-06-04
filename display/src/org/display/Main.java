@@ -1,13 +1,16 @@
 package org.display;
 
 import org.displaysdk.Display;
+import org.example.Message;
+import org.server.MessageQueue;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
     public static InetAddress IP;
@@ -27,15 +30,19 @@ public class Main {
 
         // 向服务器请求数据
         try (Socket socket = new Socket(IP, PORT)) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            String readStr;
-            while ((readStr = br.readLine()) != null) {
+            MessageQueue read;
+            while ((read = (MessageQueue) new ObjectInputStream(socket.getInputStream()).readObject()) != null) {
                 // 等待数据返回，调用展示方法展示数据
-                new Display().show(readStr);
+                Display display = new Display();
+
+                LinkedBlockingQueue<Message> queue = read.getQueueingQueue();
+
+
+                display.show(Arrays.toString(queue.stream().map(Message::getQueueingNumber).toArray()));
             }
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
