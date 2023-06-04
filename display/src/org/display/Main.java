@@ -18,7 +18,7 @@ public class Main {
             PORT = Integer.parseInt(args[1]);
         } else {
             IP = InetAddress.getLocalHost();
-            PORT = 8989;
+            PORT = 9000;
         }
 
         Display display = new Display();

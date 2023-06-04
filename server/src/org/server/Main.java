@@ -5,7 +5,7 @@ public class Main {
         if (args.length == 1) {
             Server.PORT = Integer.parseInt(args[0]);
         } else {
-            Server.PORT = 8989;
+            Server.PORT = 9000;
         }
 
         new Server();

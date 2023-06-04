@@ -19,7 +19,7 @@ public class Main {
             PORT = Integer.parseInt(args[1]);
         } else {
             IP = InetAddress.getLocalHost();
-            PORT = 8989;
+            PORT = 9000;
         }
         while (true) {
             System.out.println("输入: 1-取号");
@@ -34,8 +34,7 @@ public class Main {
                     ps.println("addNumber");
                     String readLine = br.readLine();
                     System.out.println("获取号码" + readLine);
-
-
+                    System.out.println("查看排队进度: http://localhost:9001/?" + readLine);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
