@@ -39,6 +39,7 @@ public class Main {
                     throw new RuntimeException(e);
                 }
             } else if (s.equals("quit") || s.equals("q")) {
+                System.out.println("退出");
                 break;
             }
         }
