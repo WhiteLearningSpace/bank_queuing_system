@@ -24,9 +24,12 @@ public class Caller {
             GlobalUtils.clearCMD();
             System.out.println("当前柜台ID：" + counterID);
             System.out.print("是否叫号(1-叫号): ");
-            int userInput = scanner.nextInt();
-            if (userInput == 1) {
+            String userInput = scanner.nextLine();
+            if (userInput.equals("1")) {
                 removeNumber();
+            } else if (userInput.equals("q") || userInput.equals("quit")) {
+                System.out.println("退出");
+                break;
             }
         }
     }
@@ -51,8 +54,7 @@ public class Caller {
                 BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
                 ps.println("createCaller&" + counterID);
-                if (br.readLine()
-                      .equals("失败")) {// 柜台已存在
+                if (br.readLine().equals("false")) {// 柜台已存在
                     System.out.println("柜台已在别处登录");
                     continue;
                 }
