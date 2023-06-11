@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.Scanner;
 
@@ -32,18 +33,25 @@ public class Server {
 
                     Integer integer = queue.checkQueueProgress(Integer.valueOf(params));
 
-                    String response = "<html>" +
+                    String waitMsg;
+                    if (integer != null) {
+                        waitMsg = "<h1>当前前面还有" + integer + "人</h1>";
+                    } else {
+                        waitMsg = "<h1>号码不存在</h1>";
+                    }
+
+                    String response = "<!doctype html>" +
+                            "<html lang=\"zh-CN\">" +
                             "<head>" +
-                            "<meta charset=\"UTF-8\">" +
+                            "<meta charset=\"utf-8\">" +
                             "<title>进度</title>" +
                             "</head>" +
                             "<body><center>" +
-                            "<h1>当前前面还有" + integer + "人</h1>" +
+                            waitMsg +
                             "</center></body>" +
                             "</html>"; // 设置响应内容
 
-
-                    byte[] responseData = response.getBytes();
+                    byte[] responseData = response.getBytes(StandardCharsets.UTF_8);
 
                     // 设置响应头
                     exchange.getResponseHeaders().set("Content-Type", "text/html");
