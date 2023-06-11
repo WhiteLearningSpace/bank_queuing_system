@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class Main {
     public static InetAddress IP;
@@ -20,6 +21,14 @@ public class Main {
             IP = InetAddress.getLocalHost();
             PORT = 9000;
         }
+
+        new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            String inputStr = scanner.nextLine();
+            if (inputStr.equals("q") || inputStr.equals("quit")) {
+                System.exit(0);
+            }
+        }).start();
 
         Display display = new Display();
 
@@ -45,6 +54,5 @@ public class Main {
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
