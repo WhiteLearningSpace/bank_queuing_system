@@ -89,17 +89,17 @@ public class Queue implements Serializable {
      * 创建叫号器
      *
      * @param str - 叫号器编号
-     * @return - 成功 / 失败
+     * @return - true / false
      */
     public static String createCaller(String str) {
         int counterID = Integer.parseInt(str);
         if (!counterList.contains(counterID)) {
             counterList.add(counterID);
             System.out.println("创建柜台" + counterID + "成功");
-            return "成功";
+            return "true";
         }
         System.out.println("创建柜台" + counterID + "失败");
-        return "失败";
+        return "false";
     }
 
     /**
